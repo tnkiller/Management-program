@@ -23,19 +23,7 @@ void display_drugs() {
     }
 }
 
-void add_drug() {
-    if (drug_count >= MAX_DRUGS) {
-        printf("Drug list is full!\n");
-        return;
-    }
-    printf("Enter drug name: ");
-    scanf("%s", drugs[drug_count].name);
-    printf("Enter quantity: ");
-    scanf("%d", &drugs[drug_count].quantity);
-    printf("Enter price: ");
-    scanf("%f", &drugs[drug_count].price);
-    drug_count++;
-}
+
 
 void sort_drugs() {
     int option;
