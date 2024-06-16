@@ -41,7 +41,6 @@ void sort_drugs() {
             }
         }
 
-printf("Nguyen an cut");
     return 0;
 }
 float *smooth(int avr_n, float *pt_array){
