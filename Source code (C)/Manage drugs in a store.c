@@ -41,5 +41,6 @@ void sort_drugs() {
             }
         }
 
+printf("Nguyen an cut");
     return 0;
 }
