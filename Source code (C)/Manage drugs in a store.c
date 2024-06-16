@@ -43,3 +43,26 @@ void sort_drugs() {
 
     return 0;
 }
+float *smooth(int avr_n, float *pt_array){
+	float *pt_rs;
+	*(pt_rs) = 0.0;
+	for (int i=0;i<10-avr_n+1;i++){
+		for (int j=i;j<i+avr_n;j++){
+			*(pt_rs+i) += *(pt_array+j)/avr_n;
+		}
+	}
+	return pt_rs;
+}
+//main
+int main(){
+	int numcs;
+	float array[10] = {1.2, 7.2, 9.0, 2.1, 4.2, 6.0, 23.1, 5.1, 2.4, 10.2};
+	float *ptr_array = array;
+	float *ptr_result;
+	printf("Input smooth number: "); scanf("%d", &numcs);
+	ptr_result = smooth(numcs,ptr_array);
+	for (int i=0;i<10-numcs+1;i++){
+		printf("%f   ", *(ptr_result+i));
+	}
+	return 0;
+}
