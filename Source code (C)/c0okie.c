@@ -1,2 +1,9 @@
 #include<stdio.h>
-lmao
+
+int main(){
+	
+	
+	
+	
+	return 0;
+}
