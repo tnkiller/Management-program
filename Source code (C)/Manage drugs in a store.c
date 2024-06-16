@@ -40,55 +40,6 @@ void sort_drugs() {
                 drugs[j] = temp;
             }
         }
-    }
-    printf("Drugs sorted successfully.\n");
-}
-
-void search_drug() {
-    char name[NAME_LENGTH];
-    printf("Enter drug name to search: ");
-    scanf("%s", name);
-
-    for (int i = 0; i < drug_count; i++) {
-        if (strcmp(drugs[i].name, name) == 0) {
-            printf("Drug found: Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
-            return;
-        }
-    }
-    printf("Drug not found.\n");
-}
-
-void save_to_file() {
-    FILE *file = fopen("drugs.txt", "w");
-    if (!file) {
-        printf("Failed to open file.\n");
-        return;
-    }
-    for (int i = 0; i < drug_count; i++) {
-        fprintf(file, "Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
-    }
-    fclose(file);
-    printf("Data saved to file successfully.\n");
-}
-
-void delete_drug() {
-    char name[NAME_LENGTH];
-    printf("Enter drug name to delete: ");
-    scanf("%s", name);
-
-    for (int i = 0; i < drug_count; i++) {
-        if (strcmp(drugs[i].name, name) == 0) {
-            for (int j = i; j < drug_count - 1; j++) {
-                drugs[j] = drugs[j + 1];
-            }
-            drug_count--;
-            printf("Drug deleted successfully.\n");
-            return;
-        }
-    }
-    printf("Drug not found.\n");
-}
-
 void delete_all_drugs() {
     drug_count = 0;
     printf("All drugs deleted successfully.\n");
