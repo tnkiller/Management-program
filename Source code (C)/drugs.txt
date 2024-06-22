@@ -1,0 +1,5 @@
+Name: Paracetamol, Quantity: 50, Price: 0.50
+Name: Aspirin, Quantity: 30, Price: 0.30
+Name: Amoxicillin, Quantity: 20, Price: 1.00
+Name: Ibuprofen, Quantity: 40, Price: 0.60
+Name: Cetirizine, Quantity: 25, Price: 0.45
