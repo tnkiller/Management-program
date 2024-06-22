@@ -4,27 +4,29 @@
 
 #define MAXDRUGS 100
 #define NAME_LENGTH 50
+#define DATE_LENGTH 11
 
 typedef struct {
     char name[NAME_LENGTH];
     int quantity;
     float price;
+    char expiryDate[DATE_LENGTH];
 } Drug;
 
 Drug drugs[MAXDRUGS];
-int drugCount=0;
+int drugCount = 0;
 
 void displayDrugs() {
     printf("List of Drugs:\n");
-     printf("%-20s %-10s %-10s\n", "Name", "Quantity", "Price");
-    printf("---------------------------------------------------\n");
-   for (int i=0;i<drugCount;i++) {
-        printf("%-20s %-10d $%-9.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
+    printf("%-20s %-10s %-10s %-15s\n", "Name", "Quantity", "Price", "Expiry Date");
+    printf("---------------------------------------------------------------\n");
+    for (int i = 0; i < drugCount; i++) {
+        printf("%-20s %-10d %-10.2f %-15s\n", drugs[i].name, drugs[i].quantity, drugs[i].price, drugs[i].expiryDate);
     }
 }
 
 void addDrug() {
-    if (drugCount>=MAXDRUGS) {
+    if (drugCount >= MAXDRUGS) {
         printf("Drug list is full!\n");
         return;
     }
@@ -34,22 +36,25 @@ void addDrug() {
     scanf("%d", &drugs[drugCount].quantity);
     printf("Price: ");
     scanf("%f", &drugs[drugCount].price);
+    printf("Expiry Date (YYYY-MM-DD): ");
+    scanf("%s", drugs[drugCount].expiryDate);
     drugCount++;
 }
 
-void sortDrugs(){
+void sortDrugs() {
     int options;
-    printf("Sort by: 1. Name, 2. Quantity, 3. Price\n");
+    printf("Sort by: 1. Name, 2. Quantity, 3. Price, 4. Expiry Date\n");
     scanf("%d", &options);
 
-    for (int i=0;i<drugCount-1;i++){
-        for (int j=i+1;j<drugCount;j++){
-            if ((options==1&&strcmp(drugs[i].name, drugs[j].name)>0)||
-                (options==2&&drugs[i].quantity>drugs[j].quantity)||
-                (options==3&&drugs[i].price>drugs[j].price)){
-                Drug temp=drugs[i];
-                drugs[i]=drugs[j];
-                drugs[j]=temp;
+    for (int i = 0; i < drugCount - 1; i++) {
+        for (int j = i + 1; j < drugCount; j++) {
+            if ((options == 1 && strcmp(drugs[i].name, drugs[j].name) > 0) ||
+                (options == 2 && drugs[i].quantity > drugs[j].quantity) ||
+                (options == 3 && drugs[i].price > drugs[j].price) ||
+                (options == 4 && strcmp(drugs[i].expiryDate, drugs[j].expiryDate) > 0)) {
+                Drug temp = drugs[i];
+                drugs[i] = drugs[j];
+                drugs[j] = temp;
             }
         }
     }
@@ -61,9 +66,9 @@ void search_drug() {
     printf("Enter drug name to search: ");
     scanf("%s", name);
 
-    for (int i=0;i<drugCount;i++){
+    for (int i = 0; i < drugCount; i++) {
         if (strcmp(drugs[i].name, name) == 0) {
-            printf("Drug found: Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
+            printf("Drug found: Name: %s, Quantity: %d, Price: %.2f, Expiry Date: %s\n", drugs[i].name, drugs[i].quantity, drugs[i].price, drugs[i].expiryDate);
             return;
         }
     }
@@ -77,7 +82,7 @@ void save_to_file() {
         return;
     }
     for (int i = 0; i < drugCount; i++) {
-        fprintf(file, "Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
+        fprintf(file, "Name: %s, Quantity: %d, Price: %.2f, Expiry Date: %s\n", drugs[i].name, drugs[i].quantity, drugs[i].price, drugs[i].expiryDate);
     }
     fclose(file);
     printf("Data saved to file successfully.\n");
@@ -107,44 +112,52 @@ void delete_all_drugs() {
 }
 
 void menu() {
-    printf("\nDrug Store Management System\n");
-    printf("1. Display all drugs\n");
-    printf("2. Add new drug\n");
-    printf("3. Sort drugs\n");
-    printf("4. Search for a drug\n");
-    printf("5. Save to file\n");
-    printf("6. Delete a drug\n");
-    printf("7. Delete all drugs\n");
-    printf("8. Exit\n");
+    printf("\n---------------------------------------\n");
+    printf("|          Drug Store Management      |\n");
+    printf("---------------------------------------\n");
+    printf("| 1 | Display all drugs               |\n");
+    printf("| 2 | Add new drug                    |\n");
+    printf("| 3 | Sort drugs                      |\n");
+    printf("| 4 | Search for a drug               |\n");
+    printf("| 5 | Save to file                    |\n");
+    printf("| 6 | Delete a drug                   |\n");
+    printf("| 7 | Delete all drugs                |\n");
+    printf("| 8 | Exit                            |\n");
+    printf("---------------------------------------\n");
 }
 
 int main() {
     int choice;
     strcpy(drugs[0].name, "Paracetamol");
     drugs[0].quantity = 50;
-    drugs[0].price = 0.50;
+    drugs[0].price = 10000.0;
+    strcpy(drugs[0].expiryDate, "2024-12-31");
 
-    strcpy(drugs[1].name, "Aspirin");
+    strcpy(drugs[1].name, "Berberin");
     drugs[1].quantity = 30;
-    drugs[1].price = 0.30;
+    drugs[1].price = 8000.0;
+    strcpy(drugs[1].expiryDate, "2024-10-15");
 
-    strcpy(drugs[2].name, "Amoxicillin");
+    strcpy(drugs[2].name, "Aspirin");
     drugs[2].quantity = 20;
-    drugs[2].price = 1.00;
+    drugs[2].price = 15000.0;
+    strcpy(drugs[2].expiryDate, "2024-05-01");
 
-    strcpy(drugs[3].name, "Ibuprofen");
+    strcpy(drugs[3].name, "Benadryl");
     drugs[3].quantity = 40;
-    drugs[3].price = 0.60;
+    drugs[3].price = 10000.0;
+    strcpy(drugs[3].expiryDate, "2025-01-20");
 
     strcpy(drugs[4].name, "Cetirizine");
     drugs[4].quantity = 25;
-    drugs[4].price = 0.45;
+    drugs[4].price = 13000.0;
+    strcpy(drugs[4].expiryDate, "2024-11-11");
 
     drugCount = 5;
 
     while (1) {
         menu();
-        printf("Enter your choice: ");
+        printf("Your choice: ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
@@ -171,7 +184,7 @@ int main() {
             case 8:
                 exit(0);
             default:
-                printf("Invalid choice. Please try again.\n");
+                printf("Invalid choice!\n");
         }
     }
 
