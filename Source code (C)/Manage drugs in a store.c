@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_DRUGS 100
+#define MAXDRUGS 100
 #define NAME_LENGTH 50
 
 typedef struct {
@@ -11,49 +11,49 @@ typedef struct {
     float price;
 } Drug;
 
-Drug drugs[MAX_DRUGS];
-int drug_count = 0;
+Drug drugs[MAXDRUGS];
+int drugCount=0;
 
-void display_drugs() {
+void displayDrugs() {
     printf("List of Drugs:\n");
      printf("%-20s %-10s %-10s\n", "Name", "Quantity", "Price");
     printf("---------------------------------------------------\n");
-   for (int i = 0; i < drug_count; i++) {
+   for (int i=0;i<drugCount;i++) {
         printf("%-20s %-10d $%-9.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
     }
 }
 
-void add_drug() {
-    if (drug_count >= MAX_DRUGS) {
+void addDrug() {
+    if (drugCount>=MAXDRUGS) {
         printf("Drug list is full!\n");
         return;
     }
-    printf("Enter drug name: ");
-    scanf("%s", drugs[drug_count].name);
-    printf("Enter quantity: ");
-    scanf("%d", &drugs[drug_count].quantity);
-    printf("Enter price: ");
-    scanf("%f", &drugs[drug_count].price);
-    drug_count++;
+    printf("Input drug name: ");
+    scanf("%s", drugs[drugCount].name);
+    printf("Quantity: ");
+    scanf("%d", &drugs[drugCount].quantity);
+    printf("Price: ");
+    scanf("%f", &drugs[drugCount].price);
+    drugCount++;
 }
 
-void sort_drugs() {
-    int option;
+void sortDrugs(){
+    int options;
     printf("Sort by: 1. Name, 2. Quantity, 3. Price\n");
-    scanf("%d", &option);
+    scanf("%d", &options);
 
-    for (int i = 0; i < drug_count - 1; i++) {
-        for (int j = i + 1; j < drug_count; j++) {
-            if ((option == 1 && strcmp(drugs[i].name, drugs[j].name) > 0) ||
-                (option == 2 && drugs[i].quantity > drugs[j].quantity) ||
-                (option == 3 && drugs[i].price > drugs[j].price)) {
-                Drug temp = drugs[i];
-                drugs[i] = drugs[j];
-                drugs[j] = temp;
+    for (int i=0;i<drugCount-1;i++){
+        for (int j=i+1;j<drugCount;j++){
+            if ((options==1&&strcmp(drugs[i].name, drugs[j].name)>0)||
+                (options==2&&drugs[i].quantity>drugs[j].quantity)||
+                (options==3&&drugs[i].price>drugs[j].price)){
+                Drug temp=drugs[i];
+                drugs[i]=drugs[j];
+                drugs[j]=temp;
             }
         }
     }
-    printf("Drugs sorted successfully.\n");
+    printf("Drugs sorted.\n");
 }
 
 void search_drug() {
@@ -61,7 +61,7 @@ void search_drug() {
     printf("Enter drug name to search: ");
     scanf("%s", name);
 
-    for (int i = 0; i < drug_count; i++) {
+    for (int i=0;i<drugCount;i++){
         if (strcmp(drugs[i].name, name) == 0) {
             printf("Drug found: Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
             return;
@@ -76,7 +76,7 @@ void save_to_file() {
         printf("Failed to open file.\n");
         return;
     }
-    for (int i = 0; i < drug_count; i++) {
+    for (int i = 0; i < drugCount; i++) {
         fprintf(file, "Name: %s, Quantity: %d, Price: %.2f\n", drugs[i].name, drugs[i].quantity, drugs[i].price);
     }
     fclose(file);
@@ -88,12 +88,12 @@ void delete_drug() {
     printf("Enter drug name to delete: ");
     scanf("%s", name);
 
-    for (int i = 0; i < drug_count; i++) {
+    for (int i = 0; i < drugCount; i++) {
         if (strcmp(drugs[i].name, name) == 0) {
-            for (int j = i; j < drug_count - 1; j++) {
+            for (int j = i; j < drugCount - 1; j++) {
                 drugs[j] = drugs[j + 1];
             }
-            drug_count--;
+            drugCount--;
             printf("Drug deleted successfully.\n");
             return;
         }
@@ -102,14 +102,14 @@ void delete_drug() {
 }
 
 void delete_all_drugs() {
-    drug_count = 0;
+    drugCount = 0;
     printf("All drugs deleted successfully.\n");
 }
 
 void menu() {
     printf("\nDrug Store Management System\n");
     printf("1. Display all drugs\n");
-    printf("2. Add a new drug\n");
+    printf("2. Add new drug\n");
     printf("3. Sort drugs\n");
     printf("4. Search for a drug\n");
     printf("5. Save to file\n");
@@ -140,7 +140,7 @@ int main() {
     drugs[4].quantity = 25;
     drugs[4].price = 0.45;
 
-    drug_count = 5;
+    drugCount = 5;
 
     while (1) {
         menu();
@@ -148,13 +148,13 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                display_drugs();
+                displayDrugs();
                 break;
             case 2:
-                add_drug();
+                addDrug();
                 break;
             case 3:
-                sort_drugs();
+                sortDrugs();
                 break;
             case 4:
                 search_drug();
