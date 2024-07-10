@@ -1,5 +1,6 @@
-Name: Paracetamol, Quantity: 50, Price: 0.50
-Name: Aspirin, Quantity: 30, Price: 0.30
-Name: Amoxicillin, Quantity: 20, Price: 1.00
-Name: Ibuprofen, Quantity: 40, Price: 0.60
-Name: Cetirizine, Quantity: 25, Price: 0.45
+Name: Paracetamol, Quantity: 50, Price: 10000.00, Expiry Date: 31-12-2024
+Name: Berberin, Quantity: 30, Price: 8000.00, Expiry Date: 15-10-2024
+Name: Aspirin, Quantity: 20, Price: 15000.00, Expiry Date: 01-05-2024
+Name: Benadryl, Quantity: 40, Price: 10000.00, Expiry Date: 20-01-2025
+Name: Cetirizine, Quantity: 25, Price: 13000.00, Expiry Date: 15-11-2024
+Name: Para, Quantity: 2, Price: 4.00, Expiry Date: 15-12-2042
