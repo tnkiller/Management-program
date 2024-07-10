@@ -6,7 +6,7 @@
 #define NAME_LENGTH 50
 #define DATE_LENGTH 11
 
-typedef struct {
+typedef struct{
     char name[NAME_LENGTH];
     int quantity;
     float price;
@@ -14,9 +14,9 @@ typedef struct {
 } Drug;
 
 Drug drugs[MAXDRUGS];
-int drugCount = 0;
+int drugCount=0;
 
-void displayDrugs() {
+void displayDrugs(){
     printf("List of Drugs:\n");
     printf("%-20s %-10s %-10s %-15s\n", "Name", "Quantity", "Price", "Expiry Date");
     printf("---------------------------------------------------------------\n");
@@ -25,8 +25,8 @@ void displayDrugs() {
     }
 }
 
-void addDrug() {
-    if (drugCount >= MAXDRUGS) {
+void addDrug(){
+    if (drugCount>=MAXDRUGS){
         printf("Drug list is full!\n");
         return;
     }
@@ -36,7 +36,7 @@ void addDrug() {
     scanf("%d", &drugs[drugCount].quantity);
     printf("Price: ");
     scanf("%f", &drugs[drugCount].price);
-    printf("Expiry Date (YYYY-MM-DD): ");
+    printf("Expiry Date (DD-MM-): ");
     scanf("%s", drugs[drugCount].expiryDate);
     drugCount++;
 }
@@ -46,15 +46,15 @@ void sortDrugs() {
     printf("Sort by: 1. Name, 2. Quantity, 3. Price, 4. Expiry Date\n");
     scanf("%d", &options);
 
-    for (int i = 0; i < drugCount - 1; i++) {
-        for (int j = i + 1; j < drugCount; j++) {
-            if ((options == 1 && strcmp(drugs[i].name, drugs[j].name) > 0) ||
-                (options == 2 && drugs[i].quantity > drugs[j].quantity) ||
-                (options == 3 && drugs[i].price > drugs[j].price) ||
-                (options == 4 && strcmp(drugs[i].expiryDate, drugs[j].expiryDate) > 0)) {
-                Drug temp = drugs[i];
-                drugs[i] = drugs[j];
-                drugs[j] = temp;
+    for (int i=0;i<drugCount-1;i++){
+        for (int j=i+1;j<drugCount;j++) {
+            if ((options==1&&strcmp(drugs[i].name, drugs[j].name)>0)||
+                (options==2&&drugs[i].quantity>drugs[j].quantity)||
+                (options==3&&drugs[i].price>drugs[j].price)||
+                (options==4&&strcmp(drugs[i].expiryDate, drugs[j].expiryDate)>0)){
+                Drug temp=drugs[i];
+                drugs[i]=drugs[j];
+                drugs[j]=temp;
             }
         }
     }
@@ -131,27 +131,27 @@ int main() {
     strcpy(drugs[0].name, "Paracetamol");
     drugs[0].quantity = 50;
     drugs[0].price = 10000.0;
-    strcpy(drugs[0].expiryDate, "2024-12-31");
+    strcpy(drugs[0].expiryDate, "31-12-2024");
 
     strcpy(drugs[1].name, "Berberin");
     drugs[1].quantity = 30;
     drugs[1].price = 8000.0;
-    strcpy(drugs[1].expiryDate, "2024-10-15");
+    strcpy(drugs[1].expiryDate, "15-10-2024");
 
     strcpy(drugs[2].name, "Aspirin");
     drugs[2].quantity = 20;
     drugs[2].price = 15000.0;
-    strcpy(drugs[2].expiryDate, "2024-05-01");
+    strcpy(drugs[2].expiryDate, "01-05-2024");
 
     strcpy(drugs[3].name, "Benadryl");
     drugs[3].quantity = 40;
     drugs[3].price = 10000.0;
-    strcpy(drugs[3].expiryDate, "2025-01-20");
+    strcpy(drugs[3].expiryDate, "20-01-2025");
 
     strcpy(drugs[4].name, "Cetirizine");
     drugs[4].quantity = 25;
     drugs[4].price = 13000.0;
-    strcpy(drugs[4].expiryDate, "2024-11-11");
+    strcpy(drugs[4].expiryDate, "15-11-2024");
 
     drugCount = 5;
 
