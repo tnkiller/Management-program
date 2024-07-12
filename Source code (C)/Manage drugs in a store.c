@@ -115,7 +115,7 @@ void menu() {
     printf("\n---------------------------------------\n");
     printf("|          Drug Store Management      |\n");
     printf("---------------------------------------\n");
-    printf("| 1 | Display all drugs               |\n");
+    printf("| 1 | Display all drugs               |\n");	
     printf("| 2 | Add new drug                    |\n");
     printf("| 3 | Sort drugs                      |\n");
     printf("| 4 | Search for a drug               |\n");
