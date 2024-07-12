@@ -128,41 +128,43 @@ void StoreMenu() {
 }
 //display
 void display() {
-	printf("\n--------------------------------- Drug List ----------------------------------\n");
-	printf("%-25s | %-10s | %-5s | %-5s | %-20s\n","Name", "Quantity", "Price", "Unit", "Expire date");
-
-	for (int i = 0; i < numProducts; i++) {
-		printf("%-25s   %-10d   %-5.2f   %-5s  %-20s\n", drugName[i], drugQuantity[i], drugPrice[i], drugUnit[i],drugDate[i]);
-	}
-	printf("------------------------------------------------------------------------------\n");
+    printf("\n--------------------------------- Drug List ----------------------------------\n");
+    printf("%-25s | %-10s | %-10s | %-10s | %-20s\n", "Name", "Quantity", "Price", "Unit", "Expire date");
+	printf("\n");
+    for (int i = 0; i < numProducts; i++) {
+        printf("%-25s  | %-10d  | %-10.2f  | %-10s  | %-20s\n", drugName[i], drugQuantity[i], drugPrice[i], drugUnit[i], drugDate[i]);
+    }
+    printf("------------------------------------------------------------------------------\n");
 }
+
 //Add new
+// Add new product
 void addProduct() {
-	printf("Enter drug name: ");
-	getchar();
-	fgets(drugName[numProducts], MAX_PRODUCT_NAME_LENGTH, stdin);
-	drugName[numProducts][strlen(drugName[numProducts]) - 1] = '\0';
+    printf("Enter drug name: ");
+    getchar(); // Consume newline character left by the previous input
+    fgets(drugName[numProducts], MAX_PRODUCT_NAME_LENGTH, stdin);
+    drugName[numProducts][strcspn(drugName[numProducts], "\n")] = '\0'; // Remove newline character
 
-	printf("Enter drug quantity: ");
-	scanf("%d", &drugQuantity[numProducts]);
+    printf("Enter drug quantity: ");
+    scanf("%d", &drugQuantity[numProducts]);
 
-	printf("Enter product price: ");
-	scanf("%f", &drugPrice[numProducts]);
+    printf("Enter product price: ");
+    scanf("%f", &drugPrice[numProducts]);
 
-	printf("Enter drug unit: ");
-	getchar();
-	fgets(drugUnit[numProducts], MAX_UNIT_LENGTH, stdin);
-	drugUnit[numProducts][strlen(drugUnit[numProducts]) - 1] = '\0';
+    printf("Enter drug unit: ");
+    getchar(); // Consume newline character left by the previous input
+    fgets(drugUnit[numProducts], MAX_UNIT_LENGTH, stdin);
+    drugUnit[numProducts][strcspn(drugUnit[numProducts], "\n")] = '\0'; // Remove newline character
 
-	printf("Enter drug expired date: ");
-	getchar();
-	fgets(drugDate[numProducts], MAX_DATE_LENGTH, stdin);
-	drugDate[numProducts][strlen(drugDate[numProducts]) - 1] = '\0';
+    printf("Enter drug expiry date: ");
+    fgets(drugDate[numProducts], MAX_DATE_LENGTH, stdin);
+    drugDate[numProducts][strcspn(drugDate[numProducts], "\n")] = '\0'; // Remove newline character
 
-	numProducts++;
-	saveProducts();
-	printf("\nAdded!\n");
+    numProducts++;
+    saveProducts();
+    printf("\nAdded!\n");
 }
+
 //Delete
 void deleteProduct() {
 	display();
