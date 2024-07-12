@@ -128,43 +128,40 @@ void StoreMenu() {
 }
 //display
 void display() {
-    printf("\n--------------------------------- Drug List ----------------------------------\n");
-    printf("%-25s | %-10s | %-10s | %-10s | %-20s\n", "Name", "Quantity", "Price", "Unit", "Expire date");
-	printf("\n");
-    for (int i = 0; i < numProducts; i++) {
-        printf("%-25s  | %-10d  | %-10.2f  | %-10s  | %-20s\n", drugName[i], drugQuantity[i], drugPrice[i], drugUnit[i], drugDate[i]);
-    }
-    printf("------------------------------------------------------------------------------\n");
-}
+	printf("\n--------------------------------- Drug List ----------------------------------\n");
+	printf("%-25s | %-10s | %-5s | %-5s | %-20s\n","Name", "Quantity", "Price", "Unit", "Expire date");
 
+	for (int i = 0; i < numProducts; i++) {
+		printf("%-25s   %-10d   %-5.2f   %-5s  %-20s\n", drugName[i], drugQuantity[i], drugPrice[i], drugUnit[i],drugDate[i]);
+	}
+	printf("------------------------------------------------------------------------------\n");
+}
 //Add new
-// Add new product
 void addProduct() {
-    printf("Enter drug name: ");
-    getchar(); // Consume newline character left by the previous input
-    fgets(drugName[numProducts], MAX_PRODUCT_NAME_LENGTH, stdin);
-    drugName[numProducts][strcspn(drugName[numProducts], "\n")] = '\0'; // Remove newline character
+	printf("Enter drug name: ");
+	getchar();
+	fgets(drugName[numProducts], MAX_PRODUCT_NAME_LENGTH, stdin);
+	drugName[numProducts][strlen(drugName[numProducts]) - 1] = '\0';
 
-    printf("Enter drug quantity: ");
-    scanf("%d", &drugQuantity[numProducts]);
+	printf("Enter drug quantity: ");
+	scanf("%d", &drugQuantity[numProducts]);
 
-    printf("Enter product price: ");
-    scanf("%f", &drugPrice[numProducts]);
+	printf("Enter product price: ");
+	scanf("%f", &drugPrice[numProducts]);
 
-    printf("Enter drug unit: ");
-    getchar(); // Consume newline character left by the previous input
-    fgets(drugUnit[numProducts], MAX_UNIT_LENGTH, stdin);
-    drugUnit[numProducts][strcspn(drugUnit[numProducts], "\n")] = '\0'; // Remove newline character
+	printf("Enter drug unit: ");
+	getchar();
+	fgets(drugUnit[numProducts], MAX_UNIT_LENGTH, stdin);
+	drugUnit[numProducts][strlen(drugUnit[numProducts]) - 1] = '\0';
 
-    printf("Enter drug expiry date: ");
-    fgets(drugDate[numProducts], MAX_DATE_LENGTH, stdin);
-    drugDate[numProducts][strcspn(drugDate[numProducts], "\n")] = '\0'; // Remove newline character
+	printf("Enter drug expired date: ");
+	fgets(drugDate[numProducts], MAX_DATE_LENGTH, stdin);
+	drugDate[numProducts][strlen(drugDate[numProducts]) - 1] = '\0';
 
-    numProducts++;
-    saveProducts();
-    printf("\nAdded!\n");
+	numProducts++;
+	saveProducts();
+	printf("\nAdded!\n");
 }
-
 //Delete
 void deleteProduct() {
 	display();
@@ -255,116 +252,116 @@ void editProduct() {
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-///*FILE*/
-////customer
-////save
-//void saveCustomers() {
-//	FILE *p_file = fopen("customer data.txt", "a");
-//	if (p_file == NULL) {
-//		printf("Not working\n");
-//		return;
-//	}
-//	for (int i = 0; i < numCustomers; i++) {
-//		fprintf(p_file, "%s-%s-%d-%s-%s\n", customerName[i],customerGender[i], customerAge[i], customerPhoneNum[i],customerNote[i]);
-//	}
-//	fclose(p_file);
-//}
-////load
-//void loadCustomers() {
-//	FILE *p_file = fopen("customer data.txt", "r");
-//	if (p_file == NULL) {
-//		printf("Not working\n");
-//		return;
-//	}
-//	numCustomers = 0;
-//	while (fscanf(p_file, "%[^-]-%[^-]-%d-%[^-]-%[^\n]", customerName[numCustomers],customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers],customerNote[numCustomers]) == 5) {
-//		numCustomers++;
-//	}
-//	fclose(p_file);
-//}
-//
-///*Customer menu*/
-//void CustomerMenu() {
-//	int choice;
-//	do {
-//		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//		printf("|               -CUSTOMER MENU-              |\n");
-//		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//		printf("| 1 | Add		 							\n");
-//		printf("| 2 | Information		 					\n");
-//		printf("| 3 | History		 						\n");
-//		printf("| 4 | Back		 							\n");
-//		printf("----------------------------------------------\n");
-//		printf("You choose: ");
-//		scanf("%d", &choice);
-//
-//		switch (choice) {
-//			case 1: {
-//				printf("\n");
-//				addCustomer();
-//				break;
-//			}
-//			case 2: {
-//				printf("\n");
-//				printCustomerList();
-//				break;
-//			}
-//			case 3: {
-//
-//				break;
-//			}
-//			default: {
-//				printf("Invalid. Try again!");
-//				break;
-//			}
-//		}
-//	} while(choice != 4);
-//}
-////Add new customer
-//void addCustomer() {
-//	printf("Enter customer name: ");
-//	getchar(); // consume newline left by previous input
-//	fgets(customerName[numCustomers], MAX_CUSTOMER_NAME_LENGTH, stdin);
-//	customerName[numCustomers][strlen(customerName[numCustomers]) - 1] = '\0'; // remove newline character
-//
-//	printf("Enter gender: ");
-//	getchar();
-//	fgets(customerGender[numCustomers], MAX_GENDER_LENGTH, stdin);
-//	customerGender[numCustomers][strlen(customerGender[numCustomers]) - 1] = '\0';
-//
-//	printf("Enter age: ");
-//	scanf("%d", &customerAge[numCustomers]);
-//	getchar();
-//
-//	printf("Enter customer phonenumber: ");
-//	fgets(customerPhoneNum[numCustomers], MAX_PHONENUMBER_LENGTH, stdin);
-//	customerPhoneNum[numCustomers][strlen(customerPhoneNum[numCustomers]) - 1] = '\0';
-//
-//	printf("Enter note of customer: ");
-//	fgets(customerNote[numCustomers], MAX_NOTE_LENGTH, stdin);
-//	customerNote[numCustomers][strlen(customerNote[numCustomers]) - 1] = '\0';
-//	numCustomers++;
-//	saveCustomers();
-//	printf("\nCustomer added successfully!\n");
-//}
-//
-////Information
-//void printCustomerList() {
-//	printf("\n------------------------------------- Customer List ---------------------------------\n");
-//	printf("%-20s | %-15s | %-10s | %-20s | %-30s\n", "Name","Gender", "Age", "Phone Number", "Note");
-//	printf("----------------------------------------------------------------------------------------\n");
-//	for (int i = 0; i < numCustomers; i++) {
-//		printf("%-20s   %-15s   %-10d   %-20s   %-30s\n", customerName[i],customerGender[i], customerAge[i],customerPhoneNum[i],customerNote[i]);
-//	}
-//	printf("---------------------------------------------------------------------------------------\n");
-//}
-//
-//
-//
-//
-//
-//
-//
+/*FILE*/
+//customer
+//save
+void saveCustomers() {
+	FILE *p_file = fopen("customer data.txt", "a");
+	if (p_file == NULL) {
+		printf("Not working\n");
+		return;
+	}
+	for (int i = 0; i < numCustomers; i++) {
+		fprintf(p_file, "%s-%s-%d-%s-%s\n", customerName[i],customerGender[i], customerAge[i], customerPhoneNum[i],customerNote[i]);
+	}
+	fclose(p_file);
+}
+//load
+void loadCustomers() {
+	FILE *p_file = fopen("customer data.txt", "r");
+	if (p_file == NULL) {
+		printf("Not working\n");
+		return;
+	}
+	numCustomers = 0;
+	while (fscanf(p_file, "%[^-]-%[^-]-%d-%[^-]-%[^\n]", customerName[numCustomers],customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers],customerNote[numCustomers]) == 5) {
+		numCustomers++;
+	}
+	fclose(p_file);
+}
+
+/*Customer menu*/
+void addCustomer();
+void printCustomerList();
+void CustomerMenu() {
+	int choice;
+	do {
+		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		printf("|               -CUSTOMER MENU-              |\n");
+		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		printf("| 1 | Add		 							\n");
+		printf("| 2 | Information		 					\n");
+		printf("| 3 | History		 						\n");
+		printf("| 4 | Back		 							\n");
+		printf("----------------------------------------------\n");
+		printf("You choose: ");
+		scanf("%d", &choice);
+
+		switch (choice) {
+			case 1: {
+				addCustomer();
+				break;
+			}
+			case 2: {
+				printCustomerList();
+				break;
+			}
+			case 3: {
+
+				break;
+			}
+			default: {
+				printf("Invalid. Try again!");
+				break;
+			}
+		}
+	} while(choice != 4);
+}
+//Add new customer
+void addCustomer() {
+	printf("Enter customer name: ");
+	getchar(); 
+	fgets(customerName[numCustomers], MAX_CUSTOMER_NAME_LENGTH, stdin);
+	customerName[numCustomers][strlen(customerName[numCustomers]) - 1] = '\0'; 
+
+	printf("Enter gender: ");
+	getchar();
+	fgets(customerGender[numCustomers], MAX_GENDER_LENGTH, stdin);
+	customerGender[numCustomers][strlen(customerGender[numCustomers]) - 1] = '\0';
+
+	printf("Enter age: ");
+	scanf("%d", &customerAge[numCustomers]);
+	getchar();
+
+	printf("Enter customer phonenumber: ");
+	fgets(customerPhoneNum[numCustomers], MAX_PHONENUMBER_LENGTH, stdin);
+	customerPhoneNum[numCustomers][strlen(customerPhoneNum[numCustomers]) - 1] = '\0';
+
+	printf("Enter note of customer: ");
+	fgets(customerNote[numCustomers], MAX_NOTE_LENGTH, stdin);
+	customerNote[numCustomers][strlen(customerNote[numCustomers]) - 1] = '\0';
+	numCustomers++;
+	saveCustomers();
+	printf("\nCustomer added successfully!\n");
+}
+
+//Information
+void printCustomerList() {
+	printf("\n------------------------------------- Customer List ---------------------------------\n");
+	printf("%-20s | %-15s | %-10s | %-20s | %-30s\n", "Name","Gender", "Age", "Phone Number", "Note");
+	printf("----------------------------------------------------------------------------------------\n");
+	for (int i = 0; i < numCustomers; i++) {
+		printf("%-20s   %-15s   %-10d   %-20s   %-30s\n", customerName[i],customerGender[i], customerAge[i],customerPhoneNum[i],customerNote[i]);
+	}
+	printf("---------------------------------------------------------------------------------------\n");
+}
+
+
+
+
+
+
+
 ///*PAYMENT*/
 ////load
 //void loadPayment() {
@@ -423,9 +420,10 @@ void editProduct() {
 //		}
 //	} while(choice != 4);
 //}
+/*--------------------------------------------------------------------------------------------------------------------*/
 //main
 int main() {
-//	loadCustomers();
+	loadCustomers();
 	loadProducts();
 	int option;
 	do {
@@ -447,7 +445,7 @@ int main() {
 			}
 			case 2: {
 				printf("\n");
-//				CustomerMenu();
+				CustomerMenu();
 				break;
 			}
 			case 3: {
