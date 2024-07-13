@@ -48,7 +48,7 @@ void saveCustomerData() {
     fp = fopen("customer_data.txt", "w");
     if (fp == NULL) {
         printf("Error opening file.\n");
-        return;
+        return;	
     }
     
     for (int i = 0; i < numCustomers; i++) {
