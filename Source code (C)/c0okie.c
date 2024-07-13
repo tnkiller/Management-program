@@ -43,6 +43,37 @@ double paymentTotals[MAX_PAYMENT];
 int numPayment = 0;
 /*--------------------------------------------------------------------------------------------------------------------*/
 /*FILE*/
+void saveCustomerData() {
+    FILE *fp;
+    fp = fopen("customer_data.txt", "w");
+    if (fp == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+    
+    for (int i = 0; i < numCustomers; i++) {
+        fprintf(fp, "%s|%s|%d|%s|%s\n", customerName[i], customerGender[i], customerAge[i], customerPhoneNum[i], customerNote[i]);
+    }
+
+    fclose(fp);
+    printf("Customer data saved!\n");
+}
+ 
+void loadCustomerData() {
+    FILE *fp;
+    fp = fopen("customer_data.txt", "r");
+
+    if (fp == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+    numCustomers = 0;
+    while (fscanf(fp, "%[^|]|%[^|]|%d|%[^|]|%[^\n]\n", customerName[numCustomers], customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers], customerNote[numCustomers]) == 5) {
+        numCustomers++;
+    }
+    fclose(fp);
+}
+
 //product
 //save
 void saveProducts() {
@@ -272,7 +303,6 @@ void saveCustomerData();
 void loadCustomerData();
 
 void addCustomer() {
-    if (numCustomers < MAX_CUSTOMERS) {
         printf("Enter customer details:\n");
 
         printf("Name: ");
@@ -292,18 +322,16 @@ void addCustomer() {
 
         numCustomers++;
         saveCustomerData();
-    } else {
-        printf("Max customer limit reached!\n");
-    }
+        printf("Updated!\n");
 }
 
 void deleteCustomer(int index) {
+	
     if (index < 0 || index >= numCustomers) {
         printf("Invalid number. No customer deleted.\n");
         return;
     }
-
-    for (int i = index; i < numCustomers - 1; i++) {
+    for (int i = index; i < numCustomers; i++) {
         strcpy(customerName[i], customerName[i + 1]);
         strcpy(customerGender[i], customerGender[i + 1]);
         customerAge[i] = customerAge[i + 1];
@@ -311,7 +339,7 @@ void deleteCustomer(int index) {
         strcpy(customerNote[i], customerNote[i + 1]);
     }
     numCustomers--;
-
+    
     printf("Customer deleted successfully.\n");
     saveCustomerData();
 }
@@ -320,7 +348,7 @@ void printCustomerList() {
     printf("Customer List:\n");
     
     printf("| %-4s | %-20s | %-10s | %-5s | %-15s | %-20s |\n", "No.", "Name", "Gender", "Age", "Phone Number", "Note");
-    printf("|--------------------------------------------------------------------------------------------|\n");
+    printf("|-------------------------------------------------------------------------------------------|\n");
 
     for (int i = 0; i < numCustomers; i++) {
         printf("| %-4d | %-20s | %-10s | %-5d | %-15s | %-20s |\n", i + 1, customerName[i], customerGender[i], customerAge[i], customerPhoneNum[i], customerNote[i]);
@@ -338,39 +366,6 @@ void viewHistory() {
     for (int i = 0; i < numCustomers; i++) {
         printf("Customer %d: %s\n", i + 1, customerName[i]);
     }
-}
-
-void saveCustomerData() {
-    FILE *fp;
-    fp = fopen("customer_data.txt", "w");
-
-    if (fp == NULL) {
-        printf("Error opening file.\n");
-        return;
-    }
-    
-    for (int i = 0; i < numCustomers; i++) {
-        fprintf(fp, "%s		|	%s|		%d|		%s|		%s\n", customerName[i], customerGender[i], customerAge[i], customerPhoneNum[i], customerNote[i]);
-    }
-
-    fclose(fp);
-    printf("Customer data saved!\n");
-}
-
-void loadCustomerData() {
-    FILE *fp;
-    fp = fopen("customer_data.txt", "r");
-
-    if (fp == NULL) {
-        printf("Error opening file.\n");
-        return;
-    }
-
-    while (fscanf(fp, " %[^\n]", customerName[numCustomers]) == 1) {
-        fscanf(fp, "|%[^|]|%d|%[^|]|%[^\n]\n", customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers], customerNote[numCustomers]);
-        numCustomers++;
-    }
-    fclose(fp);
 }
 
 void CustomerMenu() {
