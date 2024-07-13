@@ -255,116 +255,183 @@ void editProduct() {
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-///*FILE*/
-////customer
-////save
-//void saveCustomers() {
-//	FILE *p_file = fopen("customer data.txt", "a");
-//	if (p_file == NULL) {
-//		printf("Not working\n");
-//		return;
-//	}
-//	for (int i = 0; i < numCustomers; i++) {
-//		fprintf(p_file, "%s-%s-%d-%s-%s\n", customerName[i],customerGender[i], customerAge[i], customerPhoneNum[i],customerNote[i]);
-//	}
-//	fclose(p_file);
-//}
-////load
-//void loadCustomers() {
-//	FILE *p_file = fopen("customer data.txt", "r");
-//	if (p_file == NULL) {
-//		printf("Not working\n");
-//		return;
-//	}
-//	numCustomers = 0;
-//	while (fscanf(p_file, "%[^-]-%[^-]-%d-%[^-]-%[^\n]", customerName[numCustomers],customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers],customerNote[numCustomers]) == 5) {
-//		numCustomers++;
-//	}
-//	fclose(p_file);
-//}
-//
+
 ///*Customer menu*/
-//void CustomerMenu() {
-//	int choice;
-//	do {
-//		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//		printf("|               -CUSTOMER MENU-              |\n");
-//		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//		printf("| 1 | Add		 							\n");
-//		printf("| 2 | Information		 					\n");
-//		printf("| 3 | History		 						\n");
-//		printf("| 4 | Back		 							\n");
-//		printf("----------------------------------------------\n");
-//		printf("You choose: ");
-//		scanf("%d", &choice);
-//
-//		switch (choice) {
-//			case 1: {
-//				printf("\n");
-//				addCustomer();
-//				break;
-//			}
-//			case 2: {
-//				printf("\n");
-//				printCustomerList();
-//				break;
-//			}
-//			case 3: {
-//
-//				break;
-//			}
-//			default: {
-//				printf("Invalid. Try again!");
-//				break;
-//			}
-//		}
-//	} while(choice != 4);
-//}
+char customerName[MAX_CUSTOMERS][MAX_CUSTOMER_NAME_LENGTH];
+char customerGender[MAX_CUSTOMERS][MAX_GENDER_LENGTH];
+int customerAge[MAX_AGE_LENGTH];
+char customerPhoneNum[MAX_CUSTOMERS][MAX_PHONENUMBER_LENGTH];
+char customerNote[MAX_CUSTOMERS][MAX_NOTE_LENGTH];
+int numcustomers=0;
+
+void addCustomer();
+void deleteCustomer(int index);
+void printCustomerList();
+void viewHistory();
+void saveCustomerData();
+void loadCustomerData();
+
+void addCustomer() {
+    if (numCustomers < MAX_CUSTOMERS) {
+        printf("Enter customer details:\n");
+
+        printf("Name: ");
+        scanf(" %[^\n]", customerName[numCustomers]);
+
+        printf("Gender: ");
+        scanf(" %[^\n]", customerGender[numCustomers]);
+
+        printf("Age: ");
+        scanf("%d", &customerAge[numCustomers]);
+
+        printf("Phone Number: ");
+        scanf(" %[^\n]", customerPhoneNum[numCustomers]);
+
+        printf("Note: ");
+        scanf(" %[^\n]", customerNote[numCustomers]);
+
+        numCustomers++;
+        saveCustomerData();
+    } else {
+        printf("Max customer limit reached!\n");
+    }
+}
+
+void deleteCustomer(int index) {
+    if (index < 0 || index >= numCustomers) {
+        printf("Invalid number. No customer deleted.\n");
+        return;
+    }
+
+    for (int i = index; i < numCustomers - 1; i++) {
+        strcpy(customerName[i], customerName[i + 1]);
+        strcpy(customerGender[i], customerGender[i + 1]);
+        customerAge[i] = customerAge[i + 1];
+        strcpy(customerPhoneNum[i], customerPhoneNum[i + 1]);
+        strcpy(customerNote[i], customerNote[i + 1]);
+    }
+    numCustomers--;
+
+    printf("Customer deleted successfully.\n");
+    saveCustomerData();
+}
+
+void printCustomerList() {
+    printf("Customer List:\n");
+    
+    printf("| %-4s | %-20s | %-10s | %-5s | %-15s | %-20s |\n", "No.", "Name", "Gender", "Age", "Phone Number", "Note");
+    printf("|--------------------------------------------------------------------------------------------|\n");
+
+    for (int i = 0; i < numCustomers; i++) {
+        printf("| %-4d | %-20s | %-10s | %-5d | %-15s | %-20s |\n", i + 1, customerName[i], customerGender[i], customerAge[i], customerPhoneNum[i], customerNote[i]);
+    }
+}
+
+void viewHistory() {
+    printf("History:\n");
+
+    if (numCustomers == 0) {
+        printf("No customers added or deleted yet.\n");
+        return;
+    }
+
+    for (int i = 0; i < numCustomers; i++) {
+        printf("Customer %d: %s\n", i + 1, customerName[i]);
+    }
+}
+
+void saveCustomerData() {
+    FILE *fp;
+    fp = fopen("customer_data.txt", "w");
+
+    if (fp == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+    
+    for (int i = 0; i < numCustomers; i++) {
+        fprintf(fp, "%s		|	%s|		%d|		%s|		%s\n", customerName[i], customerGender[i], customerAge[i], customerPhoneNum[i], customerNote[i]);
+    }
+
+    fclose(fp);
+    printf("Customer data saved!\n");
+}
+
+void loadCustomerData() {
+    FILE *fp;
+    fp = fopen("customer_data.txt", "r");
+
+    if (fp == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+
+    while (fscanf(fp, " %[^\n]", customerName[numCustomers]) == 1) {
+        fscanf(fp, "|%[^|]|%d|%[^|]|%[^\n]\n", customerGender[numCustomers], &customerAge[numCustomers], customerPhoneNum[numCustomers], customerNote[numCustomers]);
+        numCustomers++;
+    }
+    fclose(fp);
+}
+
+void CustomerMenu() {
+	int choice;
+	loadCustomerData();
+	do {
+		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		printf("|               -CUSTOMER MENU-              |\n");
+		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		printf("| 1 | Add		 							\n");
+		printf("| 2 | Delete	 							\n");
+		printf("| 3 | Information		 					\n");
+		printf("| 4 | History		 						\n");
+		printf("| 5 | Back		 							\n");
+		printf("----------------------------------------------\n");
+		printf("You choose: ");
+		scanf("%d", &choice);
+
+		switch (choice) {
+			case 1: {
+				printf("\n");
+				addCustomer();
+				break;
+			}
+			case 2:{
+				int index;
+                printf("Enter customer number to delete: ");
+                scanf("%d", &index);
+                deleteCustomer(index - 1);
+				break;
+			}
+			case 3: {
+				printf("\n");
+				printCustomerList();
+				break;
+			}
+			case 4: {
+				printf("\n");
+				viewHistory();
+				break;
+			}
+			case 5:{
+				printf("Returning..\n");
+				break;
+			}
+			default: {
+				printf("Invalid. Try again!");
+				break;
+			}
+		}
+	} while(choice != 5);
+}
 ////Add new customer
-//void addCustomer() {
-//	printf("Enter customer name: ");
-//	getchar(); // consume newline left by previous input
-//	fgets(customerName[numCustomers], MAX_CUSTOMER_NAME_LENGTH, stdin);
-//	customerName[numCustomers][strlen(customerName[numCustomers]) - 1] = '\0'; // remove newline character
-//
-//	printf("Enter gender: ");
-//	getchar();
-//	fgets(customerGender[numCustomers], MAX_GENDER_LENGTH, stdin);
-//	customerGender[numCustomers][strlen(customerGender[numCustomers]) - 1] = '\0';
-//
-//	printf("Enter age: ");
-//	scanf("%d", &customerAge[numCustomers]);
-//	getchar();
-//
-//	printf("Enter customer phonenumber: ");
-//	fgets(customerPhoneNum[numCustomers], MAX_PHONENUMBER_LENGTH, stdin);
-//	customerPhoneNum[numCustomers][strlen(customerPhoneNum[numCustomers]) - 1] = '\0';
-//
-//	printf("Enter note of customer: ");
-//	fgets(customerNote[numCustomers], MAX_NOTE_LENGTH, stdin);
-//	customerNote[numCustomers][strlen(customerNote[numCustomers]) - 1] = '\0';
-//	numCustomers++;
-//	saveCustomers();
-//	printf("\nCustomer added successfully!\n");
-//}
-//
+
+
+
+
 ////Information
-//void printCustomerList() {
-//	printf("\n------------------------------------- Customer List ---------------------------------\n");
-//	printf("%-20s | %-15s | %-10s | %-20s | %-30s\n", "Name","Gender", "Age", "Phone Number", "Note");
-//	printf("----------------------------------------------------------------------------------------\n");
-//	for (int i = 0; i < numCustomers; i++) {
-//		printf("%-20s   %-15s   %-10d   %-20s   %-30s\n", customerName[i],customerGender[i], customerAge[i],customerPhoneNum[i],customerNote[i]);
-//	}
-//	printf("---------------------------------------------------------------------------------------\n");
-//}
-//
-//
-//
-//
-//
-//
-//
+
+
+
 ///*PAYMENT*/
 ////load
 //void loadPayment() {
@@ -447,7 +514,7 @@ int main() {
 			}
 			case 2: {
 				printf("\n");
-//				CustomerMenu();
+				CustomerMenu();
 				break;
 			}
 			case 3: {
